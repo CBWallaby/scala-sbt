@@ -27,7 +27,7 @@ RUN \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install awscli && \
+  apt-get install awscli -y && \
   apt-get install sbt && \
   sbt sbtVersion
 
