@@ -11,9 +11,6 @@ FROM openjdk:8-jdk
 ENV SCALA_VERSION 2.12.7
 ENV SBT_VERSION 1.4.1
 
-# Scala expects this file
-RUN touch /usr/lib/jvm/java-8-openjdk-amd64/release
-
 # Install Scala
 ## Piping curl directly in tar
 RUN \
@@ -30,6 +27,16 @@ RUN \
   apt-get install awscli -y && \
   apt-get install sbt && \
   sbt sbtVersion
+  
+# Prepare sbt (warm cache)
+RUN \
+  sbt sbtVersion && \
+  mkdir -p project && \
+  echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
+  echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
+  echo "case object Temp" > Temp.scala && \
+  sbt compile && \
+  rm -r project && rm build.sbt && rm Temp.scala && rm -r target
 
 # Define working directory
 WORKDIR /root
