@@ -28,8 +28,10 @@ RUN \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install awscli -y && \
-  apt-get install amazon-ecr-credential-helper -y && \
+  apt-get install -y \
+    awscli \
+    docker \
+    amazon-ecr-credential-helper && \
   apt-get install sbt rpm -y
   
 # Add and use user sbtuser
