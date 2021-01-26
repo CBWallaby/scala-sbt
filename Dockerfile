@@ -33,7 +33,10 @@ RUN \
     docker \
     amazon-ecr-credential-helper && \
   apt-get install sbt rpm -y
-  
+
+RUN systemctl enable docker.service && \
+  systemctl start docker
+
 # Add and use user sbtuser
 RUN groupadd --gid $GROUP_ID sbtuser && useradd --gid $GROUP_ID --uid $USER_ID sbtuser --shell /bin/bash
 RUN chown -R sbtuser:sbtuser /opt
